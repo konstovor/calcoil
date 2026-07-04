@@ -197,3 +197,5 @@ Thumbs.db
 
 # Python
 *.pyc
+
+*.ui
