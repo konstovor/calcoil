@@ -29,6 +29,7 @@ class Ui_MainWindow(object):
         self.table.setSizePolicy(sizePolicy)
         self.table.setObjectName("table")
         self.table.setColumnCount(5)
+        self.table.horizontalHeader().setSectionResizeMode(QtWidgets.QHeaderView.Stretch)
         self.table.setRowCount(0)
         item = QtWidgets.QTableWidgetItem()
         self.table.setHorizontalHeaderItem(0, item)
