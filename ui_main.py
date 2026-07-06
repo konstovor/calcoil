@@ -156,7 +156,7 @@ class Ui_MainWindow(object):
 
     def retranslateUi(self, MainWindow):
         _translate = QtCore.QCoreApplication.translate
-        MainWindow.setWindowTitle(_translate("MainWindow", "Calcoil"))
+        MainWindow.setWindowTitle(_translate("MainWindow", "Калькулятор расхода топлива"))
         item = self.table.horizontalHeaderItem(0)
         item.setText(_translate("MainWindow", "КМ"))
         item = self.table.horizontalHeaderItem(1)
