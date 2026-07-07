@@ -1,4 +1,5 @@
 import sys
+import os
 from PyQt5 import QtCore, QtGui, QtWidgets
 from ui_main import *
 from PyQt5.QtGui import QFont
@@ -13,9 +14,13 @@ class MyWin(QtWidgets.QMainWindow):
         QtWidgets.QWidget.__init__(self, parent)
         self.ui = Ui_MainWindow()
         self.ui.setupUi(self)
+        self.ui.table.insertColumn(5)
+        self.ui.table.setColumnHidden(5, True)
+        self.ui.table.horizontalHeader().setSectionResizeMode(QtWidgets.QHeaderView.Stretch)
         self.set_connects()
         self.db = database.DatabaseManager()
         self.db.init_db()
+        self.current_image_path = None
         self.refresh_table()
 
     def set_connects(self):
@@ -51,12 +56,14 @@ class MyWin(QtWidgets.QMainWindow):
             self.ui.dist_dspinb.setFocus()
             self.ui.liters_dspinb.setFocus()
             return
+        image_path = self.current_image_path if self.current_image_path else ""
         data = {
             "distance": self.ui.dist_dspinb.value(),
             "liters": self.ui.liters_dspinb.value(),
             "price": self.ui.price_dspinb.value(),
             "consumption": self.ui.cons_lineE.text().strip(),
-            "cost": self.ui.cost_lineE.text().strip()
+            "cost": self.ui.cost_lineE.text().strip(),
+            "image_path": image_path
         }
         self.db.insert_record(data)
         self.refresh_table()
@@ -75,13 +82,15 @@ class MyWin(QtWidgets.QMainWindow):
             self.ui.dist_dspinb.setFocus()
             self.ui.liters_dspinb.setFocus()
             return
+        image_path = self.current_image_path if self.current_image_path else ""
         data = {
             "id": item_id,
             "distance": self.ui.dist_dspinb.value(),
             "liters": self.ui.liters_dspinb.value(),
             "price": self.ui.price_dspinb.value(),
             "consumption": self.ui.cons_lineE.text().strip(),
-            "cost": self.ui.cost_lineE.text().strip()
+            "cost": self.ui.cost_lineE.text().strip(),
+            "image_path": image_path
         }
         self.db.update_record(data)
         self.refresh_table()
@@ -110,6 +119,7 @@ class MyWin(QtWidgets.QMainWindow):
             pixmap = QPixmap.fromImage(qt_img)
             self.ui.imag_lab.setPixmap(pixmap)
             self.ui.imag_lab.setStyleSheet("background-color: #fff; border: 2pxsolid #999; border-radius: 8px;")
+            self.current_image_path = path
         except Exception as e:
             QtWidgets.QMessageBox.critical(self, "Ошибка", f"Не удалось загрузить изображение:\n{e}")
 
@@ -120,12 +130,27 @@ class MyWin(QtWidgets.QMainWindow):
             self.clear_fields()
             return
         row = selected[0].row()
-        self.ui.dist_dspinb.setValue(float(self.ui.table.item(row, 0).text()))
-        self.ui.liters_dspinb.setValue(float(self.ui.table.item(row, 1).text()))
-        self.ui.price_dspinb.setValue(float(self.ui.table.item(row, 2).text()))
-        self.ui.cons_lineE.setText(str(self.ui.table.item(row, 3).text()))
-        self.ui.cost_lineE.setText(str(self.ui.table.item(row, 4).text()))
-
+        try:
+            self.ui.dist_dspinb.setValue(float(self.ui.table.item(row, 0).text()))
+            self.ui.liters_dspinb.setValue(float(self.ui.table.item(row, 1).text()))
+            self.ui.price_dspinb.setValue(float(self.ui.table.item(row, 2).text()))
+            self.ui.cons_lineE.setText(self.ui.table.item(row, 3).text())
+            self.ui.cost_lineE.setText(self.ui.table.item(row, 4).text())
+            image_path = self.ui.table.item(row, 5).data(Qt.UserRole)
+            if image_path and os.path.exists(image_path):
+                pixmap = QPixmap(image_path)
+                if not pixmap.isNull():
+                    pixmap = pixmap.scaled(260, 260, Qt.KeepAspectRatio, Qt.SmoothTransformation)
+                    self.ui.imag_lab.setPixmap(pixmap)
+                    self.ui.imag_lab.setStyleSheet("background-color: #fff; border: 2pxsolid #999; border-radius: 8px;")
+                else:
+                    self.ui.imag_lab.setText("Фото")
+                    self.ui.imag_lab.setStyleSheet("background-color: #fff; border: 2pxsolid #999; border-radius: 8px;")
+            else:
+                self.ui.imag_lab.setText("Фото")
+                self.ui.imag_lab.setStyleSheet("background-color: #fff; border: 2pxsolid #999; border-radius: 8px;")
+        except (ValueError, AttributeError) as e:
+            print(f"Ошибка при загрузке данных: {e}")
     def clear_fields(self):
         self.ui.dist_dspinb.setValue(0.0)
         self.ui.liters_dspinb.setValue(0.0)
@@ -134,6 +159,7 @@ class MyWin(QtWidgets.QMainWindow):
         self.ui.cost_lineE.setText(str(0.0))
         self.ui.imag_lab.setText("Фото")
         self.ui.imag_lab.setStyleSheet("background-color: #f5f5f5; border: 2pxdashed #bbb; border-radius: 8px;")
+        self.current_image_path = None
 
     def refresh_table(self):
         self.ui.table.setRowCount(0)
@@ -145,6 +171,9 @@ class MyWin(QtWidgets.QMainWindow):
             self.ui.table.setItem(i, 2, QtWidgets.QTableWidgetItem(str(rec["price"] if rec["price"] is not None else "")))
             self.ui.table.setItem(i, 3, QtWidgets.QTableWidgetItem(str(rec["consumption"] if rec["consumption"] is not None else "")))
             self.ui.table.setItem(i, 4, QtWidgets.QTableWidgetItem(str(rec["cost"] if rec["cost"] is not None else "")))
+            image_item = QtWidgets.QTableWidgetItem("")
+            image_item.setData(Qt.UserRole, rec["image_path"] if rec["image_path"] else "")
+            self.ui.table.setItem(i, 5, image_item)
             self.ui.table.item(i, 0).setData(Qt.UserRole, rec["id"])
 
     def closeEvent(self, event):
@@ -155,12 +184,14 @@ class MyWin(QtWidgets.QMainWindow):
                 self.ui.dist_dspinb.setFocus()
                 self.ui.liters_dspinb.setFocus()
                 return
+            image_path = self.current_image_path if self.current_image_path else ""
             data = {
                 "distance": self.ui.dist_dspinb.value(),
                 "liters": self.ui.liters_dspinb.value(),
                 "price": self.ui.price_dspinb.value(),
                 "consumption": self.ui.cons_lineE.text().strip(),
-                "cost": self.ui.cost_lineE.text().strip()
+                "cost": self.ui.cost_lineE.text().strip(),
+                 "image_path": image_path
             }
             self.db.insert_record(data)
             QtWidgets.QMessageBox.information(self, "Успех", "Запись добавлена в базу.")

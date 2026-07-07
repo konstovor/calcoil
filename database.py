@@ -15,24 +15,25 @@ class DatabaseManager:
                 liters REAL NOT NULL,
                 price REAL,
                 consumption REAL,
-                cost REAL
+                cost REAL,
+                image_path TEXT
             )
         """)
         self.conn.commit()
     def get_all(self):
         cursor = self.conn.cursor()
-        cursor.execute("SELECT id, distance, liters, price, consumption, cost FROM items ORDER BY id")
+        cursor.execute("SELECT id, distance, liters, price, consumption, cost, image_path FROM items ORDER BY id")
         return cursor.fetchall()
     def insert_record(self, data):
         cursor = self.conn.cursor()
         cursor.execute(
-            "INSERT INTO items (distance, liters, price, consumption, cost) VALUES (?, ?, ?, ?,?)",(data["distance"], data["liters"], data["price"], data["consumption"], data["cost"])
+            "INSERT INTO items (distance, liters, price, consumption, cost, image_path) VALUES (?, ?, ?, ?, ?, ?)",(data["distance"], data["liters"], data["price"], data["consumption"], data["cost"], data.get("image_path", ""))
         )
         self.conn.commit()
     def update_record(self, data):
         cursor = self.conn.cursor()
         cursor.execute(
-            "UPDATE items SET distance=?, liters=?, price=?, consumption=?, cost=? WHERE id=?", (data["distance"], data["liters"], data["price"], data["consumption"], data["cost"], data["id"])
+            "UPDATE items SET distance=?, liters=?, price=?, consumption=?, cost=?, image_path=? WHERE id=?", (data["distance"], data["liters"], data["price"], data["consumption"], data["cost"], data.get("image_path", ""), data["id"])
         )
         self.conn.commit()
     def delete_record(self, item_id):
