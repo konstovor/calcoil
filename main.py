@@ -123,14 +123,6 @@ class MyWin(QtWidgets.QMainWindow):
         self.ui.dist_dspinb.setValue(float(self.ui.table.item(row, 0).text()))
         self.ui.liters_dspinb.setValue(float(self.ui.table.item(row, 1).text()))
         self.ui.price_dspinb.setValue(float(self.ui.table.item(row, 2).text()))
-            
-            # Обновляем вычисляемые поля
-        self.upd_cons()
-        self.upd_cost()
-            
-            # Обновляем вычисляемые поля
-        self.upd_cons()
-        self.upd_cost()
         self.ui.cons_lineE.setText(str(self.ui.table.item(row, 3).text()))
         self.ui.cost_lineE.setText(str(self.ui.table.item(row, 4).text()))
 
