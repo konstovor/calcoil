@@ -118,6 +118,7 @@ class Ui_MainWindow(object):
         self.imag_lab = QtWidgets.QLabel(self.centralwidget)
         self.imag_lab.setAlignment(QtCore.Qt.AlignCenter)
         self.imag_lab.setObjectName("imag_lab")
+        self.imag_lab.setStyleSheet("background-color: #f5f5f5; border: 2pxdashed #bbb; border-radius: 8px;")
         self.gridLayout_2.addWidget(self.imag_lab, 2, 4, 3, 4)
         self.do_imag_btn = QtWidgets.QPushButton(self.centralwidget)
         self.do_imag_btn.setObjectName("do_imag_btn")

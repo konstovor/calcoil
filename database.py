@@ -1,11 +1,11 @@
 import sqlite3
 import os
-Database_File = "history_of_drives.db"
+DB_FILE = "history_of_drives.db"
 class DatabaseManager:
     def __init__(self):
         self.conn = None
     def init_db(self):
-        self.conn = sqlite3.connect(Database_File)
+        self.conn = sqlite3.connect(DB_FILE)
         self.conn.row_factory = sqlite3.Row
         cursor = self.conn.cursor()
         cursor.execute("""
@@ -21,18 +21,18 @@ class DatabaseManager:
         self.conn.commit()
     def get_all(self):
         cursor = self.conn.cursor()
-        cursor.execute("SELECT id, distance, liters, price, consunption, cost FROM items ORDER BY id")
+        cursor.execute("SELECT id, distance, liters, price, consumption, cost FROM items ORDER BY id")
         return cursor.fetchall()
     def insert_record(self, data):
         cursor = self.conn.cursor()
         cursor.execute(
-            "INSERT INTO items (id, distance, liters, price, consunption, cost) VALUES (?, ?, ?, ?,?)",(data["distance"], data["liters"], data["price"], data["consunption"], data["cost"])
+            "INSERT INTO items (distance, liters, price, consumption, cost) VALUES (?, ?, ?, ?,?)",(data["distance"], data["liters"], data["price"], data["consumption"], data["cost"])
         )
         self.conn.commit()
     def update_record(self, data):
         cursor = self.conn.cursor()
         cursor.execute(
-            "UPDATE items SET distance=?, liters=?, price=?, consunption=?, cost=? WHERE id=?", (data["distance"], data["liters"], data["price"], data["consunption"], data["cost"], data["id"])
+            "UPDATE items SET distance=?, liters=?, price=?, consumption=?, cost=? WHERE id=?", (data["distance"], data["liters"], data["price"], data["consumption"], data["cost"], data["id"])
         )
         self.conn.commit()
     def delete_record(self, item_id):
