@@ -158,6 +158,20 @@ class MyWin(QtWidgets.QMainWindow):
     def closeEvent(self, event):
         reply = QtWidgets.QMessageBox.question(self, "Выход", "Сохранить изменения перед выходом?", QtWidgets.QMessageBox.Yes | QtWidgets.QMessageBox.No | QtWidgets.QMessageBox.Cancel)
         if reply == QtWidgets.QMessageBox.Yes:
+            if self.ui.dist_dspinb.value() == 0 or self.ui.liters_dspinb.value() == 0:
+                QtWidgets.QMessageBox.warning(self, "Ошибка валидации", "Поля 'Дистанция(км)' и 'Литры' обязательны для заполнения.")
+                self.ui.dist_dspinb.setFocus()
+                self.ui.liters_dspinb.setFocus()
+                return
+            data = {
+                "distance": self.ui.dist_dspinb.value(),
+                "liters": self.ui.liters_dspinb.value(),
+                "price": self.ui.price_dspinb.value(),
+                "consumption": self.ui.cons_lineE.text().strip(),
+                "cost": self.ui.cost_lineE.text().strip()
+            }
+            self.db.insert_record(data)
+            QtWidgets.QMessageBox.information(self, "Успех", "Запись добавлена в базу.")
             event.accept()
         elif reply == QtWidgets.QMessageBox.No:
             event.accept()
