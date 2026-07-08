@@ -64,9 +64,9 @@ class MyWin(QtWidgets.QMainWindow):
             return
         image_path = self.current_image_path if self.current_image_path else ""
         data = {
-            "distance": self.ui.dist_dspinb.value(),
-            "liters": self.ui.liters_dspinb.value(),
-            "price": self.ui.price_dspinb.value(),
+            "distance": round(self.ui.dist_dspinb.value(), 2),
+            "liters": round(self.ui.liters_dspinb.value(), 2),
+            "price": round(self.ui.price_dspinb.value(), 2),
             "consumption": self.ui.cons_lineE.text().strip(),
             "cost": self.ui.cost_lineE.text().strip(),
             "image_path": image_path
@@ -92,9 +92,9 @@ class MyWin(QtWidgets.QMainWindow):
         image_path = self.current_image_path if self.current_image_path else ""
         data = {
             "id": item_id,
-            "distance": self.ui.dist_dspinb.value(),
-            "liters": self.ui.liters_dspinb.value(),
-            "price": self.ui.price_dspinb.value(),
+            "distance": round(self.ui.dist_dspinb.value(), 2),
+            "liters": round(self.ui.liters_dspinb.value(), 2),
+            "price": round(self.ui.price_dspinb.value(), 2),
             "consumption": self.ui.cons_lineE.text().strip(),
             "cost": self.ui.cost_lineE.text().strip(),
             "image_path": image_path
@@ -196,9 +196,9 @@ class MyWin(QtWidgets.QMainWindow):
                 return
             image_path = self.current_image_path if self.current_image_path else ""
             data = {
-                "distance": self.ui.dist_dspinb.value(),
-                "liters": self.ui.liters_dspinb.value(),
-                "price": self.ui.price_dspinb.value(),
+                "distance": round(self.ui.dist_dspinb.value(), 2),
+                "liters": round(self.ui.liters_dspinb.value(), 2),
+                "price": round(self.ui.price_dspinb.value(), 2),
                 "consumption": self.ui.cons_lineE.text().strip(),
                 "cost": self.ui.cost_lineE.text().strip(),
                  "image_path": image_path
