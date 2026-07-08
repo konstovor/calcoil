@@ -15,6 +15,7 @@ class Ui_MainWindow(object):
         self.gridLayout_2.setSizeConstraint(QtWidgets.QLayout.SetDefaultConstraint)
         self.gridLayout_2.setContentsMargins(6, -1, -1, -1)
         self.gridLayout_2.setObjectName("gridLayout_2")
+        # === Table ===
         self.table = QtWidgets.QTableWidget(self.centralwidget)
         sizePolicy = QtWidgets.QSizePolicy(QtWidgets.QSizePolicy.Expanding, QtWidgets.QSizePolicy.Expanding)
         sizePolicy.setHorizontalStretch(0)
@@ -48,12 +49,15 @@ class Ui_MainWindow(object):
         sizePolicy.setHorizontalStretch(0)
         sizePolicy.setVerticalStretch(0)
         sizePolicy.setHeightForWidth(self.dist_lab.sizePolicy().hasHeightForWidth())
+        # === label distance ===
         self.dist_lab.setSizePolicy(sizePolicy)
         self.dist_lab.setObjectName("dist_lab")
         self.gridLayout_2.addWidget(self.dist_lab, 0, 3, 1, 1)
+        # === button delete ===
         self.delet_btn = QtWidgets.QPushButton(self.centralwidget)
         self.delet_btn.setObjectName("delet_btn")
         self.gridLayout_2.addWidget(self.delet_btn, 7, 2, 1, 1)
+        # === label liters ===
         self.liters_lab = QtWidgets.QLabel(self.centralwidget)
         sizePolicy = QtWidgets.QSizePolicy(QtWidgets.QSizePolicy.Minimum, QtWidgets.QSizePolicy.Preferred)
         sizePolicy.setHorizontalStretch(0)
@@ -62,6 +66,7 @@ class Ui_MainWindow(object):
         self.liters_lab.setSizePolicy(sizePolicy)
         self.liters_lab.setObjectName("liters_lab")
         self.gridLayout_2.addWidget(self.liters_lab, 0, 4, 1, 1)
+        # === Doublespinbox distance ===
         self.dist_dspinb = QtWidgets.QDoubleSpinBox(self.centralwidget)
         sizePolicy = QtWidgets.QSizePolicy(QtWidgets.QSizePolicy.Minimum, QtWidgets.QSizePolicy.Fixed)
         sizePolicy.setHorizontalStretch(0)
@@ -72,6 +77,7 @@ class Ui_MainWindow(object):
         self.dist_dspinb.setSingleStep(0.1)
         self.dist_dspinb.setObjectName("dist_dspinb")
         self.gridLayout_2.addWidget(self.dist_dspinb, 1, 3, 1, 1)
+        # === label cost ===
         self.cost_lab = QtWidgets.QLabel(self.centralwidget)
         sizePolicy = QtWidgets.QSizePolicy(QtWidgets.QSizePolicy.Minimum, QtWidgets.QSizePolicy.Preferred)
         sizePolicy.setHorizontalStretch(0)
@@ -80,6 +86,7 @@ class Ui_MainWindow(object):
         self.cost_lab.setSizePolicy(sizePolicy)
         self.cost_lab.setObjectName("cost_lab")
         self.gridLayout_2.addWidget(self.cost_lab, 0, 7, 1, 1)
+        # === label consumption ===
         self.cons_lab = QtWidgets.QLabel(self.centralwidget)
         sizePolicy = QtWidgets.QSizePolicy(QtWidgets.QSizePolicy.Minimum, QtWidgets.QSizePolicy.Preferred)
         sizePolicy.setHorizontalStretch(0)
@@ -88,6 +95,7 @@ class Ui_MainWindow(object):
         self.cons_lab.setSizePolicy(sizePolicy)
         self.cons_lab.setObjectName("cons_lab")
         self.gridLayout_2.addWidget(self.cons_lab, 0, 6, 1, 1)
+        # === label price ===
         self.price_lab = QtWidgets.QLabel(self.centralwidget)
         sizePolicy = QtWidgets.QSizePolicy(QtWidgets.QSizePolicy.Minimum, QtWidgets.QSizePolicy.Preferred)
         sizePolicy.setHorizontalStretch(0)
@@ -96,6 +104,7 @@ class Ui_MainWindow(object):
         self.price_lab.setSizePolicy(sizePolicy)
         self.price_lab.setObjectName("price_lab")
         self.gridLayout_2.addWidget(self.price_lab, 0, 5, 1, 1)
+        # === Doublespinbox liters ===
         self.liters_dspinb = QtWidgets.QDoubleSpinBox(self.centralwidget)
         sizePolicy = QtWidgets.QSizePolicy(QtWidgets.QSizePolicy.Minimum, QtWidgets.QSizePolicy.Fixed)
         sizePolicy.setHorizontalStretch(0)
@@ -106,6 +115,7 @@ class Ui_MainWindow(object):
         self.liters_dspinb.setSingleStep(0.1)
         self.liters_dspinb.setObjectName("liters_dspinb")
         self.gridLayout_2.addWidget(self.liters_dspinb, 1, 4, 1, 1)
+        # === Doublespinbox price ===
         self.price_dspinb = QtWidgets.QDoubleSpinBox(self.centralwidget)
         sizePolicy = QtWidgets.QSizePolicy(QtWidgets.QSizePolicy.Minimum, QtWidgets.QSizePolicy.Fixed)
         sizePolicy.setHorizontalStretch(0)
@@ -116,11 +126,13 @@ class Ui_MainWindow(object):
         self.price_dspinb.setSingleStep(0.1)
         self.price_dspinb.setObjectName("price_dspinb")
         self.gridLayout_2.addWidget(self.price_dspinb, 1, 5, 1, 1)
+        # === label image ===
         self.imag_lab = QtWidgets.QLabel(self.centralwidget)
         self.imag_lab.setAlignment(QtCore.Qt.AlignCenter)
         self.imag_lab.setObjectName("imag_lab")
         self.imag_lab.setStyleSheet("background-color: #f5f5f5; border: 2pxdashed #bbb; border-radius: 8px;")
         self.gridLayout_2.addWidget(self.imag_lab, 2, 4, 3, 4)
+        # === button load_image ===
         self.do_imag_btn = QtWidgets.QPushButton(self.centralwidget)
         self.do_imag_btn.setObjectName("do_imag_btn")
         self.gridLayout_2.addWidget(self.do_imag_btn, 5, 6, 1, 2)
@@ -129,10 +141,12 @@ class Ui_MainWindow(object):
         sizePolicy.setHorizontalStretch(0)
         sizePolicy.setVerticalStretch(0)
         sizePolicy.setHeightForWidth(self.cons_lineE.sizePolicy().hasHeightForWidth())
+        # === LineEdit consumption ===
         self.cons_lineE.setSizePolicy(sizePolicy)
         self.cons_lineE.setReadOnly(True)
         self.cons_lineE.setObjectName("cons_lineE")
         self.gridLayout_2.addWidget(self.cons_lineE, 1, 6, 1, 1)
+        # === LineEdit cost ===
         self.cost_lineE = QtWidgets.QLineEdit(self.centralwidget)
         sizePolicy = QtWidgets.QSizePolicy(QtWidgets.QSizePolicy.Minimum, QtWidgets.QSizePolicy.Fixed)
         sizePolicy.setHorizontalStretch(0)
@@ -142,12 +156,15 @@ class Ui_MainWindow(object):
         self.cost_lineE.setReadOnly(True)
         self.cost_lineE.setObjectName("cost_lineE")
         self.gridLayout_2.addWidget(self.cost_lineE, 1, 7, 1, 1)
+        # === button change ===
         self.chang_btn = QtWidgets.QPushButton(self.centralwidget)
         self.chang_btn.setObjectName("chang_btn")
         self.gridLayout_2.addWidget(self.chang_btn, 7, 0, 1, 2)
+        # === button cleare ===
         self.cleare = QtWidgets.QPushButton(self.centralwidget)
         self.cleare.setObjectName("cleare")
         self.gridLayout_2.addWidget(self.cleare, 7, 7, 1, 1)
+        # === button save ===
         self.sav_btn = QtWidgets.QPushButton(self.centralwidget)
         self.sav_btn.setObjectName("sav_btn")
         self.gridLayout_2.addWidget(self.sav_btn, 5, 4, 1, 2)
@@ -158,6 +175,7 @@ class Ui_MainWindow(object):
 
     def retranslateUi(self, MainWindow):
         _translate = QtCore.QCoreApplication.translate
+        # === Widgets texts ===
         MainWindow.setWindowTitle(_translate("MainWindow", "Калькулятор расхода топлива"))
         item = self.table.horizontalHeaderItem(0)
         item.setText(_translate("MainWindow", "КМ"))

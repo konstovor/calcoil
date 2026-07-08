@@ -13,11 +13,14 @@ class MyWin(QtWidgets.QMainWindow):
     def __init__(self, parent=None):
         QtWidgets.QWidget.__init__(self, parent)
         self.ui = Ui_MainWindow()
+        # 1 Верстка интерфейса
         self.ui.setupUi(self)
         self.ui.table.insertColumn(5)
         self.ui.table.setColumnHidden(5, True)
         self.ui.table.horizontalHeader().setSectionResizeMode(QtWidgets.QHeaderView.Stretch)
+        # 2 Привязка событий
         self.set_connects()
+        # Инициализация БД (создаст файл .db при первом запуске)
         self.db = database.DatabaseManager()
         self.db.init_db()
         self.current_image_path = None
@@ -35,6 +38,7 @@ class MyWin(QtWidgets.QMainWindow):
         self.ui.table.itemSelectionChanged.connect(self.select_rowe)
         self.ui.cleare.clicked.connect(self.clear_fields)
 
+# === Set consumption ===
     def upd_cons(self):
         dist = self.ui.dist_dspinb.value()
         liters = self.ui.liters_dspinb.value()
@@ -44,12 +48,14 @@ class MyWin(QtWidgets.QMainWindow):
         else:
             self.ui.cons_lineE.setText("0.00")
 
+# === Set cost ===
     def upd_cost(self):
         liters = self.ui.liters_dspinb.value()
         price = self.ui.price_dspinb.value()
         cost = liters * price
         self.ui.cost_lineE.setText(str(round(cost, 2)))
 
+# === Save row ===
     def adde(self):
         if self.ui.dist_dspinb.value() == 0 or self.ui.liters_dspinb.value() == 0:
             QtWidgets.QMessageBox.warning(self, "Ошибка валидации", "Поля 'Дистанция(км)' и 'Литры' обязательны для заполнения.")
@@ -70,6 +76,7 @@ class MyWin(QtWidgets.QMainWindow):
         self.clear_fields()
         QtWidgets.QMessageBox.information(self, "Успех", "Запись добавлена в базу.")
 
+# === Edit row ===
     def edite(self):
         selected = self.ui.table.selectionModel().selectedRows()
         if not selected:
@@ -96,6 +103,7 @@ class MyWin(QtWidgets.QMainWindow):
         self.refresh_table()
         QtWidgets.QMessageBox.information(self, "Успех", "Запись обновлена.")
 
+# === Delete row ===
     def deletee(self):
         selected = self.ui.table.selectionModel().selectedRows()
         if not selected:
@@ -108,6 +116,7 @@ class MyWin(QtWidgets.QMainWindow):
             self.refresh_table()
             self.clear_fields()
 
+# === Load Image ===
     def do_imagee(self):
         path, _ = QtWidgets.QFileDialog.getOpenFileName(self, "Выберите изображение", "", "Images (*.png *.jpg *.jpeg)")
         if not path:
@@ -123,7 +132,7 @@ class MyWin(QtWidgets.QMainWindow):
         except Exception as e:
             QtWidgets.QMessageBox.critical(self, "Ошибка", f"Не удалось загрузить изображение:\n{e}")
 
-
+# === Select row and show it ===
     def select_rowe(self):
         selected = self.ui.table.selectionModel().selectedRows()
         if not selected:
@@ -151,6 +160,7 @@ class MyWin(QtWidgets.QMainWindow):
                 self.ui.imag_lab.setStyleSheet("background-color: #fff; border: 2pxsolid #999; border-radius: 8px;")
         except (ValueError, AttributeError) as e:
             print(f"Ошибка при загрузке данных: {e}")
+
     def clear_fields(self):
         self.ui.dist_dspinb.setValue(0.0)
         self.ui.liters_dspinb.setValue(0.0)
@@ -200,6 +210,8 @@ class MyWin(QtWidgets.QMainWindow):
             event.accept()
         else:
             event.ignore()
+        if hasattr(self, 'db') and self.db.conn:
+            self.db.conn.close()
 
 
 if __name__ == '__main__':
