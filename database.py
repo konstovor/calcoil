@@ -47,7 +47,8 @@ class DatabaseManager:
                 "INSERT INTO items (distance, liters, price, consumption, cost, image_path) VALUES (?, ?, ?, ?, ?, ?)",(data["distance"], data["liters"], data["price"], data["consumption"], data["cost"], data.get("image_path", ""))
             )
             self.conn.commit()
-            log.info(f"Добавлена запись: distance={data['distance']}, liters={data['liters']}, price={data['price']}, consumption={data['consumption']}, cost={data['cost']}, image path={data.get("image_path", "")}")
+            image_path = data.get("image_path", "")
+            log.info(f"Добавлена запись: distance={data['distance']}, liters={data['liters']}, price={data['price']}, consumption={data['consumption']}, cost={data['cost']}, image path={image_path}")
         except sqlite3.Error as e:
             log.error(f"Ошибка при добавлении записи: {e}")
 
