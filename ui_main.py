@@ -190,7 +190,7 @@ class Ui_MainWindow(object):
         self.dist_lab.setText(_translate("MainWindow", "Дистанция(км)"))
         self.delet_btn.setText(_translate("MainWindow", "Удалить"))
         self.liters_lab.setText(_translate("MainWindow", "Литры"))
-        self.cost_lab.setText(_translate("MainWindow", "Затраты на топливо(Руб)"))
+        self.cost_lab.setText(_translate("MainWindow", "Затраты на топливо"))
         self.cons_lab.setText(_translate("MainWindow", "Расход топлива на 100км"))
         self.price_lab.setText(_translate("MainWindow", "Цена"))
         self.imag_lab.setText(_translate("MainWindow", "Фото"))

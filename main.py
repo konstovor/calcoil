@@ -136,8 +136,14 @@ class MyWin(QtWidgets.QMainWindow):
             return
         try:
             log.info(f"Загрузка изображения: {path}")
+            self.current_image_path = path
+            label_size = self.ui.imag_lab.size()
+            width = label_size.width()
+            height = label_size.height()
+            if width <= 0 or height <= 0:
+                width, height = 260, 260
             img = Image.open(path).convert("RGBA")
-            img.thumbnail((260, 260), Image.LANCZOS)
+            img.thumbnail((width, height), Image.LANCZOS)
             qt_img = QImage(img.tobytes(), img.width, img.height, QImage.Format_RGBA8888)
             pixmap = QPixmap.fromImage(qt_img)
             self.ui.imag_lab.setPixmap(pixmap)
@@ -163,15 +169,18 @@ class MyWin(QtWidgets.QMainWindow):
             self.ui.cost_lineE.setText(self.ui.table.item(row, 4).text())
             image_path = self.ui.table.item(row, 5).data(Qt.UserRole)
             self.current_image_path = image_path if image_path else None
-            if image_path and os.path.exists(image_path):
-                pixmap = QPixmap(image_path)
-                if not pixmap.isNull():
-                    pixmap = pixmap.scaled(260, 260, Qt.KeepAspectRatio, Qt.SmoothTransformation)
-                    self.ui.imag_lab.setPixmap(pixmap)
-                    self.ui.imag_lab.setStyleSheet("background-color: #fff; border: 2pxsolid #999; border-radius: 8px;")
-                else:
-                    self.ui.imag_lab.setText("Фото")
-                    self.ui.imag_lab.setStyleSheet("background-color: #fff; border: 2pxsolid #999; border-radius: 8px;")
+            if self.current_image_path and os.path.exists(self.current_image_path):
+                label_size = self.ui.imag_lab.size()
+                width = label_size.width()
+                height = label_size.height()
+                if width <= 0 or height <= 0:
+                    width, height = 260, 260
+                img = Image.open(self.current_image_path).convert("RGBA")
+                img.thumbnail((width, height), Image.LANCZOS)
+                qt_img = QImage(img.tobytes(), img.width, img.height, QImage.Format_RGBA8888)
+                pixmap = QPixmap.fromImage(qt_img)
+                self.ui.imag_lab.setPixmap(pixmap)
+                self.ui.imag_lab.setStyleSheet("background-color: #fff; border: 2pxsolid #999; border-radius: 8px;")
             else:
                 self.ui.imag_lab.setText("Фото")
                 self.ui.imag_lab.setStyleSheet("background-color: #fff; border: 2pxsolid #999; border-radius: 8px;")
