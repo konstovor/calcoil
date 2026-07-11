@@ -217,7 +217,7 @@ class MyWin(QtWidgets.QMainWindow):
 
     def closeEvent(self, event):
         log.info("Начало процесса закрытия приложения")
-        reply = QtWidgets.QMessageBox.question(self, "Выход", "Сохранить изменения перед выходом?",\
+        reply = QtWidgets.QMessageBox.question(self, "Выход", "Сохранить текущую запись(текущии поля) перед выходом?",\
 QtWidgets.QMessageBox.Yes | QtWidgets.QMessageBox.No | QtWidgets.QMessageBox.Cancel)
         if reply == QtWidgets.QMessageBox.Yes:
             if self.ui.dist_dspinb.value() == 0 or self.ui.liters_dspinb.value() == 0:
